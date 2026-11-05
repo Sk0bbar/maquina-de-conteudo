@@ -1,0 +1,13 @@
+{
+  "name": "maquina-de-conteudo",
+  "version": "1.0.0",
+  "description": "Pipeline de planejamento de conteúdo com IA para agências: datas comemorativas, referências do mês e relatório de métricas, com revisão humana.",
+  "private": true,
+  "license": "UNLICENSED",
+  "author": "Pablo Vidal",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "exemplo": "node -e \"const {gerarRelatorio}=require('./src/relatorio-de-metricas');const fs=require('fs');const r=gerarRelatorio({cliente:'Clínica Exemplo',periodo:'01/10 a 31/10/2026',postsCsv:fs.readFileSync('exemplos/posts-exemplo.csv','utf8')});delete r.posts;console.log(JSON.stringify(r,null,2))\""
+  }
+}
