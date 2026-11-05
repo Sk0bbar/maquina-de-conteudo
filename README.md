@@ -1,6 +1,8 @@
 # Máquina de Conteúdo
 
-**Pipeline de planejamento de conteúdo com IA para agências de comunicação.** Todo mês, a Máquina entrega sozinha as datas comemorativas e as referências do momento (assuntos, notícias e vídeos em alta), filtradas pelo perfil de marca de cada cliente. Também calcula o relatório mensal de métricas do Instagram. Nada chega ao cliente sem revisão humana.
+**Pipeline de conteúdo com IA para agências de comunicação.** A Máquina gera o calendário editorial do mês com o texto completo de cada post e a imagem que acompanha, sempre seguindo o perfil de marca de cada cliente. Também entrega as datas comemorativas e as referências do momento (assuntos, notícias e vídeos em alta) e calcula o relatório mensal de métricas do Instagram. Nada chega ao cliente sem revisão humana.
+
+O formato de entrega é configurado por cliente. Hoje, na Roteirizow, ele está ajustado ao fluxo de trabalho da agência: como ela planeja antes de gravar, a entrega é a matéria-prima de planejamento (datas e referências), e a criação dos posts fica com o time criativo dela. A geração de texto e imagem continua disponível e pode ser ligada para qualquer cliente.
 
 Em produção desde setembro de 2026 com a agência **Roteirizow** (Fortaleza/CE), atendendo um cliente-piloto da área de saúde.
 
@@ -27,6 +29,9 @@ flowchart LR
     E -->|falhou| H[Aviso ao operador]
 ```
 
+- **Dois modos de entrega, configurados por cliente:**
+  - **Conteúdo pronto:** calendário do mês com data, formato, título, objetivo e tom de voz de cada post, mais o texto completo e a imagem. A imagem sai de um prompt escrito junto com o post, que proíbe texto, letreiro, marca e rosto de paciente. O mês inteiro é gerado em lotes paralelos num único Doc para revisão.
+  - **Planejamento:** datas comemorativas e referências do mês, para agências que criam os posts com o próprio time. É o modo em uso na Roteirizow.
 - **Entrega automática todo dia 20:** datas comemorativas do mês seguinte (mundiais, nacionais e regionais, cada uma com sugestão de post) e até 10 assuntos, 4 notícias e 8 vídeos em alta, **sempre com o link da fonte**.
 - **Pedidos em português pelo Telegram:** a agência escreve algo como *"gera janeiro com foco em prevenção"* e um nó de IA interpreta o pedido e dispara o gerador. Só atende chats autorizados.
 - **Perfil de marca por cliente** no Supabase, abaixo de uma camada fixa com o "jeito de ser" da agência. Toda restrição dita pelo cliente vira regra no perfil.
@@ -37,7 +42,7 @@ flowchart LR
 
 - **De zero a produção em cerca de 4 semanas**, com um cliente real pagando.
 - **Custo de IA de cerca de R$ 6 por cliente por mês** no formato atual de entrega.
-- **Pivô guiado pelo uso:** a primeira versão gerava 23 posts prontos e 48 imagens por mês. A agência mostrou que planeja antes de filmar, e o produto virou "matéria-prima de planejamento". A entrega ficou menor e passou a ser usada.
+- **Produto adaptado ao cliente:** no primeiro ciclo, a Máquina entregou 23 posts com texto completo e 48 imagens para o mês. Com o uso, a agência mostrou que o planejamento dela acontece antes da gravação e pediu a entrega só em conteúdo de planejamento. A Máquina passou a operar no modo planejamento para ela, sem perder a geração de texto e imagem, que fica disponível para outros clientes.
 - **Incidentes viraram salvaguardas:** o corte de respostas pelo Cloudflare levou à resposta assíncrona, o limite de tokens levou à geração em lotes paralelos e a entrega vazia levou à trava de qualidade (detalhes em [histórico e lições](docs/historico-e-licoes.md)).
 
 ## O que tem neste repositório
@@ -73,6 +78,7 @@ npm run exemplo
 
 ## Próximos passos
 
+- Gerar a imagem direto pela API dentro do fluxo. Hoje o prompt sai pronto e a imagem é gerada no Gemini; a integração já passou pela análise de impacto.
 - Escalar o agendamento para vários clientes da mesma agência sem configuração manual.
 - Automatizar a coleta do Instagram Insights (depende de aprovação de app na Meta).
 - Medir o impacto das sugestões no desempenho real dos posts contra a linha de base.
